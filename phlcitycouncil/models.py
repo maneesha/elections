@@ -28,6 +28,9 @@ class District(models.Model):
     district_number = models.CharField(max_length = 10)
     state = models.CharField(max_length = 2)
 
+    def __str__(self):
+        return '%s %s' % (self.district_number, self.state)
+
 class Office(models.Model):
     office = models.CharField(max_length = 50)
 
