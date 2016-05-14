@@ -33,4 +33,8 @@ class Election(models.Model):
 class Vote(models.Model):
     candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
+    vote_count = models.IntegerField(null = True, blank = True)
+
+
+
 
