@@ -43,6 +43,10 @@ class Candidate(models.Model):
 
     party = models.CharField(max_length = 12, choices = PARTY_CHOICES)
 
+    class Meta:
+        unique_together = ('person', 'party',)
+
+
     def __str__(self):
         return '%s, %s' % (self.person, self.party)
 
