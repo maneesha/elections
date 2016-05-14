@@ -43,7 +43,7 @@ class Election(models.Model):
     office = models.ForeignKey(Office, on_delete=models.CASCADE)
 
     def __str__(self):
-        return '%s %s' % (self.district, self.election_date, self.office)
+        return '%s %s %s' % (self.district, self.election_date, self.office)
 
 class Vote(models.Model):
     candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
