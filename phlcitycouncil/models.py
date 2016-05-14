@@ -28,7 +28,7 @@ class Person(models.Model):
     notes = models.TextField(null = True, blank = True)
 
     def __str__(self):
-        return '%s, %s' % (self.first_name, self.last_name)
+        return '%s %s' % (self.first_name, self.last_name)
 
     def is_not_white(self):
         return self.race != 'White'
