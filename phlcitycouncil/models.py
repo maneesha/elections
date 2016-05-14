@@ -34,10 +34,16 @@ class District(models.Model):
 class Office(models.Model):
     office = models.CharField(max_length = 50)
 
+    def __str__(self):
+        return self.office
+
 class Election(models.Model):
     district = models.ForeignKey(District, on_delete=models.CASCADE)
     election_date = models.DateTimeField()
     office = models.ForeignKey(Office, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '%s %s' % (self.district, self.election_date, self.office)
 
 class Vote(models.Model):
     candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
