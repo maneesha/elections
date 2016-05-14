@@ -35,7 +35,13 @@ class Person(models.Model):
 
 class Candidate(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
-    party = models.CharField(max_length = 12)
+
+    PARTY_CHOICES = (
+        ('Democrat', 'Democrat'),
+        ('Republican', 'Republican')
+        )
+
+    party = models.CharField(max_length = 12, choices = PARTY_CHOICES)
 
     def __str__(self):
         return '%s, %s' % (self.person, self.party)
