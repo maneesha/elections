@@ -50,6 +50,9 @@ class Vote(models.Model):
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
     vote_count = models.IntegerField(null = True, blank = True)
 
+    class Meta:
+        unique_together = ('candidate', 'election',)
+
     def __str__(self):
         return '%s %s %s' % (self.candidate, self.election, self.vote_count)
 
