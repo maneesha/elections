@@ -61,7 +61,7 @@ class Term(models.Model):
     effective_start_year = models.IntegerField()
     effecive_end_year = models.IntegerField()
     departed = models.CharField(max_length = 25)
-    notes = models.TextField()
+    notes = models.TextField(null = True, blank = True)
 
     def __str__(self):
         return '%s %s %s %s %s' % (self.candidate, self.office, self.effective_start_year, self.effecive_end_year, self.departed)
