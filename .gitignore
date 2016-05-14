@@ -1,2 +1,4 @@
 *.pyc
+council_elections.sqlite
+db.sqlite3
 
