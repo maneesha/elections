@@ -6,6 +6,7 @@ class Person(models.Model):
     first_name = models.CharField(max_length = 50)
     middle_name = models.CharField(max_length = 50, null = True, blank = True)
     last_name = models.CharField(max_length = 50)
+    suffix = models.CharField(max_length=10)
     birthdate = models.DateField(null = True, blank = True)
     
     RACE_CHOICES = (
