@@ -6,7 +6,7 @@ class Person(models.Model):
     first_name = models.CharField(max_length = 50)
     middle_name = models.CharField(max_length = 50, null = True, blank = True)
     last_name = models.CharField(max_length = 50)
-    birthdate = models.DateTimeField(null = True, blank = True)
+    birthdate = models.DateField(null = True, blank = True)
     race = models.CharField(max_length = 20, null = True, blank = True)
     gender = models.CharField(max_length = 6, null = True, blank = True)
     notes = models.TextField(null = True, blank = True)
@@ -39,7 +39,7 @@ class Office(models.Model):
 
 class Election(models.Model):
     district = models.ForeignKey(District, on_delete=models.CASCADE)
-    election_date = models.DateTimeField()
+    election_date = models.DateField()
     office = models.ForeignKey(Office, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -56,8 +56,8 @@ class Vote(models.Model):
 class Term(models.Model):
     candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
     office = models.ForeignKey(Office, on_delete=models.CASCADE)
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
+    start_date = models.DateField()
+    end_date = models.DateField()
     effective_start_year = models.IntegerField()
     effecive_end_year = models.IntegerField()
     departed = models.CharField(max_length = 25)
