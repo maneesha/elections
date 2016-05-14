@@ -7,8 +7,23 @@ class Person(models.Model):
     middle_name = models.CharField(max_length = 50, null = True, blank = True)
     last_name = models.CharField(max_length = 50)
     birthdate = models.DateField(null = True, blank = True)
-    race = models.CharField(max_length = 20, null = True, blank = True)
-    gender = models.CharField(max_length = 6, null = True, blank = True)
+    
+    RACE_CHOICES = (
+        ('Asian', 'Asian'), 
+        ('Black', 'Black'),
+        ('Hispanic', 'Hispanic'),
+        ('White', 'White')
+    )
+
+    race = models.CharField(max_length = 20, choices = RACE_CHOICES, null = True, blank = True)
+
+
+    GENDER_CHOICES = (
+        ('Female', 'Female'),
+        ('Male', 'Male')
+        )
+
+    gender = models.CharField(max_length = 6, choices = GENDER_CHOICES, null = True, blank = True)
     notes = models.TextField(null = True, blank = True)
 
     def __str__(self):
