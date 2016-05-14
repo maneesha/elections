@@ -1,4 +1,7 @@
-*.pyc
+/**/*.pyc
+/**/*.*.pyc
+/elections/__pycache__/*.pyc
+/elections/__pycache__/*.*.pyc
 council_elections.sqlite
 db.sqlite3
 council_elections_old.sqlite

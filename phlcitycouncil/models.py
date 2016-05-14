@@ -7,8 +7,8 @@ class Person(models.Model):
     middle_name = models.CharField(max_length = 50, null = True, blank = True)
     last_name = models.CharField(max_length = 50, null = True, blank = True)
     birthdate = models.DateTimeField()
-    race = models.CharField()
-    gender = models.CharField()
+    race = models.CharField(max_length = 20)
+    gender = models.CharField(max_length = 6)
     notes = models.TextField()
 
 class Candidate(models.Model):
@@ -28,4 +28,3 @@ class Vote(models.Model):
     candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
 
-    
