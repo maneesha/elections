@@ -21,6 +21,9 @@ class Candidate(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     party = models.CharField(max_length = 12)
 
+    def __str__(self):
+        return '%s, %s' % (self.person, self.party)
+
 class District(models.Model):
     district_number = models.CharField(max_length = 10)
     state = models.CharField(max_length = 2)
