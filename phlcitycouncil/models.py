@@ -11,6 +11,12 @@ class Person(models.Model):
     gender = models.CharField(max_length = 6)
     notes = models.TextField()
 
+    def __str__(self):
+        return '%s, %s' % (self.first_name, self.last_name)
+
+    def is_not_white(self):
+        return self.race != 'White'
+
 class Candidate(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     party = models.CharField(max_length = 12)
