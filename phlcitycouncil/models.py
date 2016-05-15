@@ -54,6 +54,11 @@ class District(models.Model):
     ward = models.CharField(max_length = 2)
     division = models.CharField(max_length = 2)
 
+    class Meta:
+        unique_together = ('ward', 'division')
+
+
+
     def __str__(self):
         return '%s%s' % (self.ward, self.division)
 
