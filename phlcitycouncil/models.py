@@ -51,11 +51,11 @@ class Candidate(models.Model):
         return '%s, %s' % (self.person, self.party)
 
 class District(models.Model):
-    district_number = models.CharField(max_length = 10)
-    state = models.CharField(max_length = 2)
+    ward = models.CharField(max_length = 2)
+    division = models.CharField(max_length = 2)
 
     def __str__(self):
-        return '%s %s' % (self.district_number, self.state)
+        return '%s %s' % (self.ward, self.division)
 
 class Office(models.Model):
     office = models.CharField(max_length = 50)
