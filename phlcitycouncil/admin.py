@@ -12,10 +12,16 @@ class PersonAdmin(admin.ModelAdmin):
 class TermAdmin(admin.ModelAdmin):
     list_display = ('candidate', 'start_date', 'end_date', 'eff_start_year', 'eff_end_year')
 
+class DistrictAdmin(admin.ModelAdmin):
+    list_display = ('ward', 'division')
+
+class ElectionAdmin(admin.ModelAdmin):
+    list_display = ('district', 'election_date', 'office')
+
 admin.site.register(Person, PersonAdmin)
 admin.site.register(Candidate)
-admin.site.register(District)
-admin.site.register(Election)
+admin.site.register(District, DistrictAdmin)
+admin.site.register(Election, ElectionAdmin)
 admin.site.register(Vote)
 admin.site.register(Term, TermAdmin)
 admin.site.register(Office)

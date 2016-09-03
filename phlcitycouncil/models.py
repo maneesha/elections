@@ -60,7 +60,7 @@ class District(models.Model):
 
 
     def __str__(self):
-        return '%s%s' % (self.ward, self.division)
+        return 'Ward: %s, Division: %s' % (self.ward, self.division)
 
 class Office(models.Model):
     office = models.CharField(max_length = 50)
