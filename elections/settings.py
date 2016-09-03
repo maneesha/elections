@@ -13,6 +13,29 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
+TEMPLATES = [
+{
+
+    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'DIRS': [os.path.join(BASE_DIR,'templates')],
+    'APP_DIRS': True,
+    'OPTIONS': {
+        'context_processors': [
+            'django.template.context_processors.debug',
+            'django.template.context_processors.request',
+            'django.contrib.auth.context_processors.auth',
+            'django.contrib.messages.context_processors.messages',
+
+        ],
+        'debug':True,
+    },
+},] 
+
+
+
+
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
@@ -22,7 +45,8 @@ SECRET_KEY = '$8==5c@^%d904pru5!-m#pd2^$p8#tmx#3kmifqhj_bxp7u7rx'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
+# This template setting is deprecated.  Django now uses the template dict as above.
+# TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
