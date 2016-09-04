@@ -74,7 +74,7 @@ class Election(models.Model):
     office = models.ForeignKey(Office, on_delete=models.CASCADE)
 
     # to be general, primary, special
-    election_type = models.CharField(max_length = 50)
+    election_type = models.CharField(max_length = 50, null=True, blank=True)
 
     def __str__(self):
         return '%s %s, %s' % (self.district, self.election_date, self.office)
@@ -85,7 +85,7 @@ class Vote(models.Model):
     vote_count = models.IntegerField(null = True, blank = True)
 
     # to be absentee, provisional, machine
-    ballot_type = models.CharField(max_length = 50)
+    ballot_type = models.CharField(max_length = 50, null=True, blank=True)
 
     class Meta:
         unique_together = ('candidate', 'election',)
