@@ -88,7 +88,7 @@ class Vote(models.Model):
     ballot_type = models.CharField(max_length = 50, null=True, blank=True)
 
     class Meta:
-        unique_together = ('candidate', 'election',)
+        unique_together = ('candidate', 'election', 'ballot_type')
 
     def __str__(self):
         return '%s %s %s' % (self.candidate, self.election, self.vote_count)
