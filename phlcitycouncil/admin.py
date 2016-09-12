@@ -18,10 +18,14 @@ class DistrictAdmin(admin.ModelAdmin):
 class ElectionAdmin(admin.ModelAdmin):
     list_display = ('district', 'election_date', 'office')
 
+class CandidateAdmin(admin.ModelAdmin):
+    list_display = ('person', 'party')
+
 admin.site.register(Person, PersonAdmin)
-admin.site.register(Candidate)
+admin.site.register(Candidate, CandidateAdmin)
 admin.site.register(District, DistrictAdmin)
 admin.site.register(Election, ElectionAdmin)
 admin.site.register(Vote)
 admin.site.register(Term, TermAdmin)
 admin.site.register(Office)
+
