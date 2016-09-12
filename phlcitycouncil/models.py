@@ -38,10 +38,15 @@ class Candidate(models.Model):
 
     PARTY_CHOICES = (
         ('Democrat', 'Democrat'),
-        ('Republican', 'Republican')
+        ('Green', 'Green'),
+        ('Free Dominion Party', 'Free Dominion Party'),
+        ('Independent', 'Independent'),
+        ('Philadelphia Party',  'Philadelphia Party'),
+        ('Republican', 'Republican'),
+        ('Socialist Workers Party', 'Socialist Workers Party'),
         )
 
-    party = models.CharField(max_length = 12, choices = PARTY_CHOICES)
+    party = models.CharField(max_length = 35, choices = PARTY_CHOICES)
 
     class Meta:
         unique_together = ('person', 'party',)
