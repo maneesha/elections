@@ -5,4 +5,4 @@
 council_elections.sqlite
 *.sqlite3
 council_elections_old.sqlite
-
+jupyter_notebooks/
