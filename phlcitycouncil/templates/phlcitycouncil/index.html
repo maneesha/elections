@@ -1,0 +1,14 @@
+
+
+{% if sum_votes %}
+    <ul>
+        {% for vote in sum_votes %}
+            <li>{{ vote.election__office__office }} {{ vote.candidate__person__first_name }} {{ vote.candidate__person__last_name }} {{ vote.vote_count__sum }}</li>
+
+        {% endfor %}
+    </ul>
+
+{% else %}
+    <p>No votes.</p>    
+
+{% endif %}
