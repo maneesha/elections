@@ -8,6 +8,11 @@ from django.db.models import Count, Sum
 # Create your views here.
 
 def index(request):
+    return render(request, 'phlcitycouncil/index.html')
+
+
+
+def vote_count(request):
     # Return some ordinary text
     # return HttpResponse("Hello, main page.")
 
@@ -23,7 +28,7 @@ def index(request):
     # output =  ", ".join([q.district.ward + q.district.division + str(q.election_date) + q.office.office for q in elections])
 
     # return render(request, 'phlcitycouncil/index.html', context)
-    return render(request, 'phlcitycouncil/index.html', context)
+    return render(request, 'phlcitycouncil/vote_count.html', context)
 
 
 def phlcitycouncil(request):
