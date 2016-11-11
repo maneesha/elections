@@ -12,8 +12,6 @@ class PersonAdmin(admin.ModelAdmin):
 class TermAdmin(admin.ModelAdmin):
     list_display = ('candidate', 'start_date', 'end_date',)
 
-    # list_display = ('candidate', 'start_date', 'end_date', 'eff_start_year', 'eff_end_year')
-
 class DistrictAdmin(admin.ModelAdmin):
     list_display = ('ward', 'division')
 
