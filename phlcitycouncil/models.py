@@ -103,22 +103,22 @@ class Term(models.Model):
     office = models.ForeignKey(Office, on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
-    effective_start_year = models.IntegerField()
-    effecive_end_year = models.IntegerField()
+    # effective_start_year = models.IntegerField()
+    # effecive_end_year = models.IntegerField()
     departed = models.CharField(max_length = 25)
     notes = models.TextField(null = True, blank = True)
 
-    def eff_start_year(self):
-        if self.start_date.month <= 10:
-            return self.start_date.year 
-        elif self.start_date.month >= 11:
-            return self.start_date.year + 1
+    # def eff_start_year(self):
+    #     if self.start_date.month <= 10:
+    #         return self.start_date.year 
+    #     elif self.start_date.month >= 11:
+    #         return self.start_date.year + 1
         
-    def eff_end_year(self):
-        if self.end_date.month <= 2:
-            return self.end_date.year - 1
-        elif self.end_date.month >= 3:
-            return self.end_date.year
+    # def eff_end_year(self):
+    #     if self.end_date.month <= 2:
+    #         return self.end_date.year - 1
+    #     elif self.end_date.month >= 3:
+    #         return self.end_date.year
 
     def __str__(self):
         return '%s %s %s %s %s' % (self.candidate, self.office, self.effective_start_year, self.effecive_end_year, self.departed)
