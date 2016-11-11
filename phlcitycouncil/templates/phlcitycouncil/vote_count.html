@@ -1,14 +1,19 @@
 
 
-{% if sum_votes %}
-    <ul>
-        {% for vote in sum_votes %}
-            <li>{{ vote.election__office__office }} {{ vote.candidate__person__first_name }} {{ vote.candidate__person__last_name }} {{ vote.vote_count__sum }}</li>
+{% for a in sum_votes_by_office %}
+    <hr>
+    <b>{{  a.election__office__office  }}: {{ a.vote_count__sum }}</b> <br>
 
-        {% endfor %}
-    </ul>
+    {% for b in sum_votes_by_candidate %}
 
-{% else %}
-    <p>No votes.</p>    
+        {% if a.election__office__office == b.election__office__office  %}
 
+            {{ b.candidate__person__first_name }} {{ b.candidate__person__last_name }} {{ b.candidate__party }}: {{ b.total_votes }}
+            <br>
 {% endif %}
+
+    {% endfor %}
+
+    {% endfor %}
+<br>
+
