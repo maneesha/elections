@@ -78,8 +78,13 @@ class Election(models.Model):
     election_date = models.DateField()
     office = models.ForeignKey(Office, on_delete=models.CASCADE)
 
-    # to be general, primary, special
-    election_type = models.CharField(max_length = 50, null=True, blank=True)
+    ELECTION_TYPE_CHOICES = (
+        ('General', 'General'),
+        ('Primary', 'Primary'),
+        ('Special', 'Special')
+        )
+
+    election_type = models.CharField(max_length = 50, null=True, blank=True, choices = ELECTION_TYPE_CHOICES)
 
     def __str__(self):
         return '%s %s, %s' % (self.district, self.election_date, self.office)
