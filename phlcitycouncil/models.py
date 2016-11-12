@@ -87,7 +87,7 @@ class Election(models.Model):
     election_type = models.CharField(max_length = 50, null=True, blank=True, choices = ELECTION_TYPE_CHOICES)
 
     def __str__(self):
-        return '%s %s, %s' % (self.district, self.election_date, self.office)
+        return '%s %s, %s %s' % (self.district, self.election_date, self.office, self.election_type)
 
 class Vote(models.Model):
     candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
