@@ -16,7 +16,7 @@ class DistrictAdmin(admin.ModelAdmin):
     list_display = ('ward', 'division')
 
 class ElectionAdmin(admin.ModelAdmin):
-    list_display = ('district', 'election_date', 'office')
+    list_display = ('district', 'election_date', 'office', 'election_type')
 
 class CandidateAdmin(admin.ModelAdmin):
     list_display = ('person', 'party')
