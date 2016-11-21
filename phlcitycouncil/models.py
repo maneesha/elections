@@ -124,6 +124,15 @@ class Term(models.Model):
 
     def clean(self):
 
+        #This logic needs work.
+        #Does not work when overlaps are within another range -- only when the overlap extends out of the range
+        #Example:  
+        #Range 1 = 1 to 10
+        #Range 2 = 8 to 12
+        #Range 3 = 4 to 10
+        #Range 2 will return error; Range 3 will not
+
+
         overlapping_candidate_check = Term.objects.filter(Q(candidate_id = self.candidate_id)).filter(Q(start_date__gt=self.start_date, start_date__lt=self.end_date) | Q(end_date__gt=self.start_date, end_date__lt=self.end_date))
 
  
