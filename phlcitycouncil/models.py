@@ -116,8 +116,9 @@ class Term(models.Model):
     departed = models.CharField(max_length = 25)
     notes = models.TextField(null = True, blank = True)
 
+    class Meta:
+        unique_together = ('candidate', 'office', 'start_date', 'end_date', 'departed')
 
-    ## ADD UNIQUE TOGETHER CLAUSE  ('candidate', 'office', 'start_date', 'end_date')
     ## ADD CHOICES FOR departed 
 
 
