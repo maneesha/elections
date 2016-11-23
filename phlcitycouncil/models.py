@@ -113,7 +113,20 @@ class Term(models.Model):
     office = models.ForeignKey(Office, on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
-    departed = models.CharField(max_length = 25)
+
+    DEPARTED_CHOICES = (
+        ('Incumbent', 'Incumbent'),     # Currently in office
+        ('Defeated', 'Defeated'),       # Ran for reelection and was defeated
+        ('Retired', 'Retired'),         # Decided not to run for reelction; served through current term
+        ('Resigned', 'Resigned'),       # Resigned to take another position
+        ('Scandal', 'Scandal'),         # Resigned amidst a scandal
+        ('Died', 'Died'),               # Died in office
+        )
+
+
+
+
+    departed = models.CharField(max_length = 25, choices = DEPARTED_CHOICES)
     notes = models.TextField(null = True, blank = True)
 
     class Meta:
