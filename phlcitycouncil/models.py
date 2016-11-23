@@ -124,51 +124,81 @@ class Term(models.Model):
 
     def clean(self):
 
-        #This logic needs work.
-        #Does not work when overlaps are within another range -- only when the overlap extends out of the range
-        #Example:  
-        #Range 1 = 1 to 10
-        #Range 2 = 8 to 12
-        #Range 3 = 4 to 10
-        #Range 2 will return error; Range 3 will not
+
+        # No overlaps - GOOD! If these conditions are met, pass.
+        no_overlaps_before = Term.objects.filter(Q(candidate_id = self.candidate_id)).filter(Q(start_date__lt = self.start_date), Q(start_date__lt = self.end_date), Q(end_date__lt = self.start_date), Q(end_date__lt = self.end_date))
+
+        no_overlaps_after = Term.objects.filter(Q(candidate_id = self.candidate_id)).filter(Q(start_date__gt = self.start_date), Q(start_date__gt = self.end_date), Q(end_date__gt = self.start_date), Q(end_date__gt = self.end_date))
 
 
-        overlapping_candidate_check = Term.objects.filter(Q(candidate_id = self.candidate_id)).filter(Q(start_date__gt=self.start_date, start_date__lt=self.end_date) | Q(end_date__gt=self.start_date, end_date__lt=self.end_date))
+        # Overlap(s) exist(s) - BAD!  Check to see where it overlaps.
 
- 
+        # New candidate record is entirely inside an existing candidate record
+        overlapping_candidate_inner = Term.objects.filter(Q(candidate_id = self.candidate_id)).filter(Q(start_date__lt = self.start_date), Q(start_date__lt = self.end_date), Q(end_date__gt = self.start_date), Q(end_date__gt = self.end_date))
 
-        if overlapping_candidate_check.exists():
+        # New candidate record is outside an entire exisiting candidate record
+        overlapping_candidate_outer = Term.objects.filter(Q(candidate_id = self.candidate_id)).filter(Q(start_date__gt = self.start_date), Q(start_date__lt = self.end_date), Q(end_date__gt = self.start_date), Q(end_date__lt = self.end_date))
 
-            print("####    LOG ####")
-            print(overlapping_candidate_check)
-            print("### END LOG ###")
+        # New candidate record ends during existing candidate record
+        overlapping_candidate_left = Term.objects.filter(Q(candidate_id = self.candidate_id)).filter(Q(start_date__gt = self.start_date), Q(start_date__lt = self.end_date), Q(end_date__gt = self.start_date), Q(end_date__gt = self.end_date))
 
+        # New candidate record starts during existing candidate record
+        overlapping_candidate_right = Term.objects.filter(Q(candidate_id = self.candidate_id)).filter(Q(start_date__lt = self.start_date), Q(start_date__lt = self.end_date), Q(end_date__gt = self.start_date), Q(end_date__gt = self.end_date))
+
+        # New office record is entirely inside an existing office record 
+        overlapping_office_inner = Term.objects.filter(Q(office_id = self.office_id)).filter(Q(start_date__lt = self.start_date), Q(start_date__lt = self.end_date), Q(end_date__gt = self.start_date), Q(end_date__gt = self.end_date))
+
+        # New office record is outside an entire existing office record
+        overlapping_office_outer = Term.objects.filter(Q(office_id = self.office_id)).filter(Q(start_date__gt = self.start_date), Q(start_date__lt = self.end_date), Q(end_date__gt = self.start_date), Q(end_date__lt = self.end_date))
+
+        # New office record ends during an existing office record
+        overlapping_office_left = Term.objects.filter(Q(office_id = self.office_id)).filter(Q(start_date__gt = self.start_date), Q(start_date__lt = self.end_date), Q(end_date__gt = self.start_date), Q(end_date__gt = self.end_date))
+
+        # New office record starts during an existing office record
+        overlapping_office_right = Term.objects.filter(Q(office_id = self.office_id)).filter(Q(start_date__lt = self.start_date), Q(start_date__lt = self.end_date), Q(end_date__gt = self.start_date), Q(end_date__gt = self.end_date))
+
+
+
+        if no_overlaps_before.exists() or no_overlaps_after.exists():
+            pass
+
+
+        elif overlapping_candidate_inner.exists():
             print("This term overlaps another term for this candidate")
-            raise ValidationError("Overlapping dates for Candidate", overlapping_candidate_check)
+            raise ValidationError(("A new term can not be entirely inside an existing term", overlapping_candidate_inner))
+
+        elif overlapping_candidate_outer.exists():
+            print("This term overlaps another term for this candidate")
+            raise ValidationError(("A new term can not entirely include another term", overlapping_candidate_outer))
+
+        elif overlapping_candidate_left.exists():
+            print("This term overlaps another term for this candidate")
+            raise ValidationError(("A new term can not end during another term", overlapping_candidate_left))
+
+        elif overlapping_candidate_right.exists():
+            print("This term overlaps another term for this candidate")
+            raise ValidationError(("A new term can not begin during another term", overlapping_candidate_right))
 
 
-        overlapping_office_check = Term.objects.filter(Q(office_id = self.office_id)).filter(Q(start_date__gt=self.start_date, start_date__lt=self.end_date) | Q(end_date__gt=self.start_date, end_date__lt=self.end_date))
 
-        if overlapping_office_check.exists():
+        elif overlapping_office_inner.exists():
+            print("This term overlaps another term for this candidate")
+            raise ValidationError(("A new term can not be entirely inside an existing term", overlapping_office_inner))
+        
+        elif overlapping_office_outer.exists():
+            print("This term overlaps another term for this candidate")
+            raise ValidationError(("A new term can not entirely include another term", overlapping_office_outer))
 
-            print("####    LOG ####")
-            print(overlapping_office_check)
-            print("### END LOG ###")            
-            
+
+        elif overlapping_office_left.exists():
             print("This term overlaps another term for this office")
-            raise ValidationError("Overlapping dates for Office", overlapping_office_check)
+            raise ValidationError(("A new term can not end during another term", overlapping_office_left))
 
 
-    def test_method(self):
-        # Get all of this candidate's records
-        q = Term.objects.all().filter(Q(candidate_id = self.candidate_id)).filter(Q(start_date__lt = self.start_date))
+        elif overlapping_office_right.exists():
+            print("This term overlaps another term for this office")
+            raise ValidationError(("A new term can not begin during another term", overlapping_office_left))
 
-        print("This is the test method")        
-        print(self.candidate)
-
-        print("another line")
-        print("query: ", q)
-        print("last line")
 
 
     def __str__(self):
