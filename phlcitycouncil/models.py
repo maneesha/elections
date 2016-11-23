@@ -118,12 +118,10 @@ class Term(models.Model):
         ('Incumbent', 'Incumbent'),     # Currently in office
         ('Defeated', 'Defeated'),       # Ran for reelection and was defeated
         ('Retired', 'Retired'),         # Decided not to run for reelction; served through current term
-        ('Resigned', 'Resigned'),       # Resigned to take another position
+        ('Resigned', 'Resigned'),       # Resigned to take another position during current term
         ('Scandal', 'Scandal'),         # Resigned amidst a scandal
         ('Died', 'Died'),               # Died in office
         )
-
-
 
 
     departed = models.CharField(max_length = 25, choices = DEPARTED_CHOICES)
@@ -135,10 +133,6 @@ class Term(models.Model):
 
     def __str__(self):
         return '%s, %s, start: %s, end: %s, %s' % (self.candidate, self.office, self.start_date, self.end_date, self.departed)
-
-
-    ## ADD CHOICES FOR departed 
-
 
     def clean(self):
 
