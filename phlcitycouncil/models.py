@@ -136,6 +136,12 @@ class Term(models.Model):
 
     def clean(self):
 
+        # Ensure start date is earlier than end date
+
+        if self.start_date > self.end_date:
+            raise ValidationError("Start date must be equal to or earlier than end date")
+
+
 
         # No overlaps - GOOD! If these conditions are met, pass.
         no_overlaps_before = Term.objects.filter(Q(candidate_id = self.candidate_id)).filter(Q(start_date__lt = self.start_date), Q(start_date__lt = self.end_date), Q(end_date__lt = self.start_date), Q(end_date__lt = self.end_date))
