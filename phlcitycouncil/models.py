@@ -119,6 +119,11 @@ class Term(models.Model):
     class Meta:
         unique_together = ('candidate', 'office', 'start_date', 'end_date', 'departed')
 
+
+    def __str__(self):
+        return '%s, %s, start: %s, end: %s, %s' % (self.candidate, self.office, self.start_date, self.end_date, self.departed)
+
+
     ## ADD CHOICES FOR departed 
 
 
@@ -198,13 +203,6 @@ class Term(models.Model):
         elif overlapping_office_right.exists():
             print("This term overlaps another term for this office")
             raise ValidationError(("A new term can not begin during another term", overlapping_office_left))
-
-
-
-    def __str__(self):
-        return '%s, %s, start: %s, end: %s, %s' % (self.candidate, self.office, self.start_date, self.end_date, self.departed)
-
-
 
 
     def save(self, *args, **kwargs):
