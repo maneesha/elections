@@ -4,6 +4,8 @@ from django.db.models import Q
 
 from django.core.exceptions import ValidationError
 
+import datetime
+
 
 # Create your models here.
 
@@ -140,6 +142,14 @@ class Term(models.Model):
 
         if self.start_date > self.end_date:
             raise ValidationError("Start date must be equal to or earlier than end date")
+
+
+        # Ensure incumbents don't have an end date < today
+
+        if self.departed == "Incumbent" and self.end_date < datetime.date.today():
+            raise ValidationError("An incumbent must have an end date in the future.")
+
+
 
 
 
