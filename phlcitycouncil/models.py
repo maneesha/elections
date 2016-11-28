@@ -116,6 +116,18 @@ class Vote(models.Model):
     def __str__(self):
         return '%s %s %s' % (self.candidate, self.election, self.vote_count)
 
+    def clean(self):
+
+        if self.vote_count < 0:
+            raise ValidationError("Vote count must be an integer 0 or greater.")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        return super().save(*args, **kwargs)
+
+
+    
+
 class Term(models.Model):
     candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
     office = models.ForeignKey(Office, on_delete=models.CASCADE)
