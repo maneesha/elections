@@ -101,8 +101,14 @@ class Vote(models.Model):
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
     vote_count = models.IntegerField(null = True, blank = True)
 
-    # to be absentee, provisional, machine
-    ballot_type = models.CharField(max_length = 50, null=True, blank=True)
+    BALLOT_TYPE_CHOICES = (
+        ('A', 'Absentee'),
+        ('P', 'Provisional'),
+        ('M', 'Machine'),
+        )
+
+    ballot_type = models.CharField(max_length = 50, null=True, blank=True, choices = BALLOT_TYPE_CHOICES)
+
 
     class Meta:
         unique_together = ('candidate', 'election', 'ballot_type')
