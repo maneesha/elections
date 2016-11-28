@@ -10,7 +10,7 @@ class PersonAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'birthdate', 'gender')
 
 class TermAdmin(admin.ModelAdmin):
-    list_display = ('candidate', 'start_date', 'end_date',)
+    list_display = ('candidate', 'office', 'start_date', 'end_date', 'departed')
 
 class DistrictAdmin(admin.ModelAdmin):
     list_display = ('ward', 'division')
