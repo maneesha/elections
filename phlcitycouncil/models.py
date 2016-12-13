@@ -126,7 +126,7 @@ class Vote(models.Model):
         return super().save(*args, **kwargs)
 
 
-    
+
 
 class Term(models.Model):
     candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
@@ -191,6 +191,9 @@ class Term(models.Model):
         # New candidate record starts during existing candidate record
         overlapping_candidate_right = Term.objects.filter(Q(candidate_id = self.candidate_id)).filter(Q(start_date__lt = self.start_date), Q(start_date__lt = self.end_date), Q(end_date__gt = self.start_date), Q(end_date__gt = self.end_date))
 
+        # New candidate record dates are same as existing candidate record
+        candidate_same_dates = Term.objects.filter(Q(candidate_id = self.candidate_id)).filter(Q(start_date = self.start_date), Q(end_date = self.end_date))
+
         # New office record is entirely inside an existing office record 
         overlapping_office_inner = Term.objects.filter(Q(office_id = self.office_id)).filter(Q(start_date__lt = self.start_date), Q(start_date__lt = self.end_date), Q(end_date__gt = self.start_date), Q(end_date__gt = self.end_date))
 
@@ -204,9 +207,26 @@ class Term(models.Model):
         overlapping_office_right = Term.objects.filter(Q(office_id = self.office_id)).filter(Q(start_date__lt = self.start_date), Q(start_date__lt = self.end_date), Q(end_date__gt = self.start_date), Q(end_date__gt = self.end_date))
 
 
+        # New office record dates are same as existing office record
+        office_same_dates = Term.objects.filter(Q(office_id = self.office_id)).filter(Q(start_date = self.start_date), Q(end_date = self.end_date))
+
+
+
+
+
+
 
         if no_overlaps_before.exists() or no_overlaps_after.exists():
             pass
+
+
+        elif candidate_same_dates.exists():
+            print("There is another record for this candidate with the same dates")
+            raise ValidationError(("There is another record for this candidate with the same dates", candidate_same_dates))
+
+        elif office_same_dates.exists():
+            print("There is another record for this office with the same dates")
+            raise ValidationError(("There is another record for this office with the same dates", office_same_dates))
 
 
         elif overlapping_candidate_inner.exists():
