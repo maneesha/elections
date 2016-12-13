@@ -77,6 +77,14 @@ class District(models.Model):
 class Office(models.Model):
     office = models.CharField(max_length = 50)
 
+    OFFICE_TYPE_CHOICES = (
+        ('District', 'District'),
+        ('At-Large', 'At-Large')
+        )
+
+
+    office_type = models.CharField(max_length = 10, choices = OFFICE_TYPE_CHOICES)
+
     def __str__(self):
         return self.office
 
