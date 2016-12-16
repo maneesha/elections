@@ -144,6 +144,7 @@ class Term(models.Model):
 
     DEPARTED_CHOICES = (
         ('Incumbent', 'Incumbent'),     # Currently in office
+        ('Re-elected', 'Re-elected'),   # Ran for reelection and won
         ('Defeated', 'Defeated'),       # Ran for reelection and was defeated
         ('Retired', 'Retired'),         # Decided not to run for reelction; served through current term
         ('Resigned', 'Resigned'),       # Resigned to take another position during current term
