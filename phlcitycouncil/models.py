@@ -170,6 +170,23 @@ class Term(models.Model):
             raise ValidationError("Start date must be equal to or earlier than end date")
 
 
+
+        # Ensure term is not 4 years + 1 week long (for changes in inauguration day)
+
+        term_length = self.end_date - self.start_date
+        if term_length.days < 1469:
+            print("###############DATE DIFF < 4 YRS: ##############", term_length)
+            type(term_length)
+        else:
+            raise ValidationError("Term must be shorter than 1469 days (4 years + 1 week cushion)")
+        #     print("@@@@@@@@@@@@@@DATE DIFF > 4 YRS: @@@@@@@@@@@@@@@", term_length)
+        #     type(term_length)
+
+        # print("@@@@@@@@@@@@@@DATE DIFF > 4 YRS: @@@@@@@@@@@@@@@", term_length, type(term_length))
+        # term_length_in_days = term_length.days
+        # print("...................term_length_in_days............", term_length_in_days, type(term_length_in_days))
+
+
         # Ensure incumbents don't have an end date < today
 
         if self.departed == "Incumbent" and self.end_date < datetime.date.today():
