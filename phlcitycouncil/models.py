@@ -179,12 +179,7 @@ class Term(models.Model):
             type(term_length)
         else:
             raise ValidationError("Term must be shorter than 1469 days (4 years + 1 week cushion)")
-        #     print("@@@@@@@@@@@@@@DATE DIFF > 4 YRS: @@@@@@@@@@@@@@@", term_length)
-        #     type(term_length)
 
-        # print("@@@@@@@@@@@@@@DATE DIFF > 4 YRS: @@@@@@@@@@@@@@@", term_length, type(term_length))
-        # term_length_in_days = term_length.days
-        # print("...................term_length_in_days............", term_length_in_days, type(term_length_in_days))
 
 
         # Ensure incumbents don't have an end date < today
