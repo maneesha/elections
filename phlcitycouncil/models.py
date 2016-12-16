@@ -281,9 +281,19 @@ class Term(models.Model):
             raise ValidationError("Something unknown went wrong.")    
 
 
+        
+        ######################    
+        # How'd they leave? Conditions to check for:
+        # If Died, can't have a future term
+        # If Incumbent, can't have a future term
+        # If Defeated, can't have an immediately future term
+        # If Re-elected, must have an immediately future term (but how to do this if you enter the next term afterwards?)    
 
-
-
+        print("*" * 50)
+        print("HOW'D THEY LEAVE?")
+        print(matching_candidate_records.filter(departed = 'Died'))
+        print("*" * 50)
+        #####################
 
 
 
