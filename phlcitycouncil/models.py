@@ -139,6 +139,33 @@ class Vote(models.Model):
 class Term(models.Model):
     candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
     office = models.ForeignKey(Office, on_delete=models.CASCADE)
+    
+
+    SEAT_CHOICES = (
+
+          ("DISTRICT COUNCIL - 10TH DISTRICT", "DISTRICT COUNCIL - 10TH DISTRICT"),
+          ("DISTRICT COUNCIL - 9TH DISTRICT", "DISTRICT COUNCIL - 9TH DISTRICT"),
+          ("DISTRICT COUNCIL - 8TH DISTRICT", "DISTRICT COUNCIL - 8TH DISTRICT"),
+          ("DISTRICT COUNCIL - 7TH DISTRICT", "DISTRICT COUNCIL - 7TH DISTRICT"),
+          ("DISTRICT COUNCIL - 6TH DISTRICT", "DISTRICT COUNCIL - 6TH DISTRICT"),
+          ("DISTRICT COUNCIL - 5TH DISTRICT", "DISTRICT COUNCIL - 5TH DISTRICT"),
+          ("DISTRICT COUNCIL - 4TH DISTRICT", "DISTRICT COUNCIL - 4TH DISTRICT"),
+          ("DISTRICT COUNCIL - 3RD DISTRICT", "DISTRICT COUNCIL - 3RD DISTRICT"),
+          ("DISTRICT COUNCIL - 2ND DISTRICT", "DISTRICT COUNCIL - 2ND DISTRICT"),
+          ("DISTRICT COUNCIL - 1ST DISTRICT", "DISTRICT COUNCIL - 1ST DISTRICT"),
+          ("COUNCIL AT LARGE SEAT 1", "COUNCIL AT LARGE SEAT 1" ),
+          ("COUNCIL AT LARGE SEAT 2", "COUNCIL AT LARGE SEAT 2" ),
+          ("COUNCIL AT LARGE SEAT 3", "COUNCIL AT LARGE SEAT 3"),
+          ("COUNCIL AT LARGE SEAT 4", "COUNCIL AT LARGE SEAT 4"),
+          ("COUNCIL AT LARGE SEAT 5", "COUNCIL AT LARGE SEAT 5"),
+          ("COUNCIL AT LARGE SEAT 6", "COUNCIL AT LARGE SEAT 6"),
+          ("COUNCIL AT LARGE SEAT 7", "COUNCIL AT LARGE SEAT 7"),
+
+          )
+
+
+
+    seat = models.CharField(max_length = 50, null=True, blank=True, choices = SEAT_CHOICES)
     start_date = models.DateField()
     end_date = models.DateField()
 
