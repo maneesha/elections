@@ -305,6 +305,27 @@ class Term(models.Model):
 
 
         
+
+        # Place candidates in seat based on office
+        # if office_type == district: 
+        #     seat must = office
+        # if office_type == at_large:
+        #     seat is manually assigned
+
+        # Change above options that check for overlapping *office* to check for overlapping *seat* -- but end user should never see the seat
+
+        
+
+
+
+
+
+
+
+
+
+
+
         ######################    
         # How'd they leave? Conditions to check for:
         # If Died, can't have a future term
