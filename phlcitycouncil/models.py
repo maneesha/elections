@@ -219,27 +219,28 @@ class Term(models.Model):
         # CHECKING FOR CANDIDATE AND OFFICE OVERLAPPING DATES
 
         matching_candidate_records = Term.objects.filter(Q(candidate_id = self.candidate_id))
-        matching_office_records = Term.objects.filter(Q(office_id = self.office_id))
+        matching_seat_records = Term.objects.filter(Q(seat = self.seat))
+
 
         # No candidate or office overlaps - GOOD! If these conditions are met, pass.
         candidate_no_overlaps_before = matching_candidate_records.filter(Q(start_date__gt = self.start_date), Q(start_date__gte = self.end_date))
         candidate_no_overlaps_after = matching_candidate_records.filter(Q(end_date__lte = self.start_date))
-        office_no_overlaps_before = matching_office_records.filter(Q(start_date__gt = self.start_date), Q(start_date__gte = self.end_date))
-        office_no_overlaps_after = matching_office_records.filter(Q(end_date__lte = self.start_date))
+        seat_no_overlaps_before = matching_seat_records.filter(Q(start_date__gt = self.start_date), Q(start_date__gte = self.end_date))
+        seat_no_overlaps_after = matching_seat_records.filter(Q(end_date__lte = self.start_date))
 
         # Overlap(s) exist(s) - BAD!  Check to see where it overlaps.
 
         # Candidate or Office New term starts on same day as existing term
         candidate_same_start_date = matching_candidate_records.filter(Q(start_date = self.start_date))
-        office_same_start_date = matching_office_records.filter(Q(start_date = self.start_date))
+        seat_same_start_date = matching_seat_records.filter(Q(start_date = self.start_date))
 
         # Candidate New term starts before but ends during or after existing term
         candidate_ends_during_or_after = matching_candidate_records.filter(Q(start_date__gt = self.start_date), Q(start_date__lt = self.end_date))
-        office_ends_during_or_after = matching_office_records.filter(Q(start_date__gt = self.start_date), Q(start_date__lt = self.end_date))
+        seat_ends_during_or_after = matching_seat_records.filter(Q(start_date__gt = self.start_date), Q(start_date__lt = self.end_date))
 
         # Candidate New term starts during an existing term
         candidate_starts_during_existing = matching_candidate_records.filter(Q(start_date__lt = self.start_date), Q(end_date__gt = self.start_date))
-        office_starts_during_existing = matching_office_records.filter(Q(start_date__lt = self.start_date), Q(end_date__gt = self.start_date))
+        seat_starts_during_existing = matching_seat_records.filter(Q(start_date__lt = self.start_date), Q(end_date__gt = self.start_date))
 
 
 
@@ -273,38 +274,38 @@ class Term(models.Model):
 
 
 
-        # This is the first record being entered for this office
-        if len(matching_office_records) == 0:
-            print("No existing records for this office")
+        # This is the first record being entered for this seat
+        if len(matching_seat_records) == 0:
+            print("No existing records for this seat")
             # pass
 
 
 
-        # Office dates don't overlap; pass
-        elif office_no_overlaps_before.exists() or office_no_overlaps_after.exists():
-            print("NO OVERLAPS BEFORE: ", office_no_overlaps_before)
-            print("NO OVERLAPS AFTER: ", office_no_overlaps_after)
+        # Seat dates don't overlap; pass
+        elif seat_no_overlaps_before.exists() or seat_no_overlaps_after.exists():
+            print("NO OVERLAPS BEFORE: ", seat_no_overlaps_before)
+            print("NO OVERLAPS AFTER: ", seat_no_overlaps_after)
             # pass
 
-        # Raise validataion error for different kinds of office overlaps
-        elif office_same_start_date.exists():
-            print("There is another record for this office with the same start date")
-            raise ValidationError(("There is another record for this office with the same start date", _same_start_date))
+        # Raise validataion error for different kinds of seat overlaps
+        elif seat_same_start_date.exists():
+            print("There is another record for this seat with the same start date")
+            raise ValidationError(("There is another record for this seat with the same start date", seat_same_start_date))
 
-        elif office_ends_during_or_after.exists():
-            print("The new record's end date is during or after an existing office record")
-            raise ValidationError(("The new record's end date is during or after an existing office record", office_ends_during_or_after))
+        elif seat_ends_during_or_after.exists():
+            print("The new record's end date is during or after an existing seat record")
+            raise ValidationError(("The new record's end date is during or after an existing seat record", seat_ends_during_or_after))
 
-        elif office_starts_during_existing.exists():
-            print("A new office record can not start during an existing office record")
-            raise ValidationError(("A new office record can not start during an existing office record", office_starts_during_existing))
+        elif seat_starts_during_existing.exists():
+            print("A new seat record can not start during an existing seat record")
+            raise ValidationError(("A new seat record can not start during an existing seat record", seat_starts_during_existing))
 
         else:
-            print("MATCHING OFFICE RECORDS: ", matching_office_records, "LENGTH: ", len(matching_office_records))
+            print("MATCHING SEAT RECORDS: ", matching_seat_records, "LENGTH: ", len(matching_seat_records))
             raise ValidationError("Something unknown went wrong.")    
 
 
-        
+
 
         # Place candidates in seat based on office
         # if office_type == district: 
@@ -314,7 +315,7 @@ class Term(models.Model):
 
         # Change above options that check for overlapping *office* to check for overlapping *seat* -- but end user should never see the seat
 
-        
+
 
 
 
