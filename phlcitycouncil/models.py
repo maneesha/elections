@@ -313,10 +313,28 @@ class Term(models.Model):
         # if office_type == at_large:
         #     seat is manually assigned
 
-        # Change above options that check for overlapping *office* to check for overlapping *seat* -- but end user should never see the seat
+
+
+        if self.office.office_type == "District":
+            if self.office != self.seat:
+                print("SEAT must match OFFICE for district records")
+                raise ValidationError("SEAT must match OFFICE for district records")
+        if self.office.office_type == "At-Large":
+            # Office will be just "At Large" while seat will be "At Large 1", "At Large 2", etc.
+            if self.seat not in ["COUNCIL AT LARGE SEAT 1", "COUNCIL AT LARGE SEAT 2", "COUNCIL AT LARGE SEAT 3", "COUNCIL AT LARGE SEAT 4", "COUNCIL AT LARGE SEAT 5", "COUNCIL AT LARGE SEAT 6", "COUNCIL AT LARGE SEAT 7"]:
+                print("SEAT must be one of the at large seats.")
+                raise ValidationError("SEAT must be one of the at large seats.")
+
+        print("#"*20)
+        print("YOU HAVE CREATED A NEW RECORD WITH: ")
+        print("OFFICE: ", self.office)
+        print("SEAT: ", self.seat)
+        print("OFFICE TYPE: ", self.office.office_type)
+        print("#"*20)
 
 
 
+# ["COUNCIL AT LARGE SEAT 1", "COUNCIL AT LARGE SEAT 2", "COUNCIL AT LARGE SEAT 3", "COUNCIL AT LARGE SEAT 4", "COUNCIL AT LARGE SEAT 5", "COUNCIL AT LARGE SEAT 6", "COUNCIL AT LARGE SEAT 7"]
 
 
 
