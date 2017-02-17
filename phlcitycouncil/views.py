@@ -21,6 +21,9 @@ def vote_count(request):
     # Retrive At Large Democrate candidates and votes
     sum_votes_by_candidate_atlarge_reps = Vote.objects.filter(election__office__office='COUNCIL AT LARGE', candidate__party="Republican").values('election__office__office',  'candidate__person__last_name', 'candidate__person__first_name', 'candidate__party').annotate(total_votes = Sum('vote_count')).order_by('-total_votes')
 
+    # Retrieve At Large Other Party candidates and votes
+    sum_votes_by_candidate_atlarge_other = ""
+
     # sum_votes_by_candidate_district = Vote.objects.filter(election__office__office__starts_with='DIST', candidate__party="Republican").values('election__office__office',  'candidate__person__last_name', 'candidate__person__first_name', 'candidate__party').annotate(total_votes = Sum('vote_count')).order_by('-total_votes')
 
 
@@ -33,6 +36,7 @@ def vote_count(request):
         "sum_votes_by_office":sum_votes_by_office,
         "sum_votes_by_candidate_atlarge_dems":sum_votes_by_candidate_atlarge_dems,
         "sum_votes_by_candidate_atlarge_reps":sum_votes_by_candidate_atlarge_reps,
+        "sum_votes_by_candidate_atlarge_other":sum_votes_by_candidate_atlarge_other,
         # "sum_votes_by_candidate_district":sum_votes_by_candidate_district,
 
     }
