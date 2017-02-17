@@ -1,5 +1,5 @@
 
-
+some test stuff here
 {% for a in sum_votes_by_office %}
     <hr>
     <b>{{  a.election__office__office  }}: {{ a.vote_count__sum }}</b> <br>
@@ -17,3 +17,24 @@
     {% endfor %}
 <br>
 
+
+ =======================
+
+
+<h3>At large seats: Republican</h3>
+{{ sum_votes_by_candidate_atlarge_reps }}<br>
+{% for w in sum_votes_by_candidate_atlarge_reps %}
+** {{ w.candidate__person__first_name }} {{ w.candidate__person__last_name }}: {{ w.total_votes }} <br>
+{% endfor %}
+
+=================
+
+<h3>At large seats: Democrat</h3>
+{{ sum_votes_by_candidate_atlarge_dems }}<br>
+{% for w in sum_votes_by_candidate_atlarge_dems %}
+** {{ w.candidate__person__first_name }} {{ w.candidate__person__last_name }}: {{ w.total_votes }} <br>
+{% endfor %}
+
+=============
+
+<h3>At large seats: Other Parties</h3>
