@@ -1,28 +1,57 @@
 
+<style type="text/css">
+	
+
+.cand:nth-child(3) {background-color: pink;}
+
+
+
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
 <div style="display: none;">
 ** Sum votes_by_candidate_district {{ sum_votes_by_candidate_district }}
 <br>
 
 *** sum_votes_by_office:  {{ sum_votes_by_office_district }}
 
-</div>
+</div>  
+
+
 
 {% for a in sum_votes_by_office_district %}
-    <hr>
+  <hr>
+<div class='dist'>
+
     <b>{{  a.election__office__office  }}: {{ a.vote_count__sum }}</b> <br>
 
     {% for b in sum_votes_by_candidate_district %}
 
         {% if a.election__office__office == b.election__office__office  %}
-
             <div class = "cand">{{ b.candidate__person__first_name }} {{ b.candidate__person__last_name }} {{ b.candidate__party }}: {{ b.total_votes }}</div>
-
             <br>
-{% endif %}
+		{% endif %}
 
     {% endfor %}
 
-    {% endfor %}
+</div>
+{% endfor %}
+
+
+
+
+
+
 <br>
 
  =============
