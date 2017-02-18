@@ -11,7 +11,6 @@ def index(request):
     return render(request, 'phlcitycouncil/index.html')
 
 
-
 def vote_count(request):
     sum_votes_by_candidate = Vote.objects.all().values('election__office__office',  'candidate__person__last_name', 'candidate__person__first_name', 'candidate__party').annotate(total_votes = Sum('vote_count')).order_by('-total_votes')
 
@@ -24,11 +23,16 @@ def vote_count(request):
     # Retrieve At Large Other Party candidates and votes
     sum_votes_by_candidate_atlarge_other = ""
 
-    # sum_votes_by_candidate_district = Vote.objects.filter(election__office__office__starts_with='DIST', candidate__party="Republican").values('election__office__office',  'candidate__person__last_name', 'candidate__person__first_name', 'candidate__party').annotate(total_votes = Sum('vote_count')).order_by('-total_votes')
+    sum_votes_by_candidate_district = Vote.objects.filter(election__office__office__startswith='DIST').values('election__office__office',  'candidate__person__last_name', 'candidate__person__first_name', 'candidate__party').annotate(total_votes = Sum('vote_count')).order_by('-total_votes')
 
 
 
     sum_votes_by_office = Vote.objects.all().values('election__office__office').annotate(Sum('vote_count'))
+
+    sum_votes_by_office_district = Vote.objects.filter(election__office__office__startswith='DIST').values('election__office__office').annotate(Sum('vote_count'))
+
+
+    sum_votes_by_candidate_atlarge_other = Vote.objects.filter(election__office__office='COUNCIL AT LARGE').values('election__office__office',  'candidate__person__last_name', 'candidate__person__first_name', 'candidate__party').annotate(total_votes = Sum('vote_count')).order_by('-total_votes').exclude(candidate__party__in=["Democrat", "Republican"])
 
 
     context = {
@@ -37,12 +41,13 @@ def vote_count(request):
         "sum_votes_by_candidate_atlarge_dems":sum_votes_by_candidate_atlarge_dems,
         "sum_votes_by_candidate_atlarge_reps":sum_votes_by_candidate_atlarge_reps,
         "sum_votes_by_candidate_atlarge_other":sum_votes_by_candidate_atlarge_other,
-        # "sum_votes_by_candidate_district":sum_votes_by_candidate_district,
+        "sum_votes_by_candidate_district":sum_votes_by_candidate_district,
+        "sum_votes_by_office_district":sum_votes_by_office_district,
+        "sum_votes_by_candidate_atlarge_other": sum_votes_by_candidate_atlarge_other
+
 
     }
-    # output =  ", ".join([q.district.ward + q.district.division + str(q.election_date) + q.office.office for q in elections])
 
-    # return render(request, 'phlcitycouncil/index.html', context)
     return render(request, 'phlcitycouncil/vote_count.html', context)
 
 

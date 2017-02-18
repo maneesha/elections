@@ -1,14 +1,22 @@
 
-some test stuff here
-{% for a in sum_votes_by_office %}
+<div style="display: none;">
+** Sum votes_by_candidate_district {{ sum_votes_by_candidate_district }}
+<br>
+
+*** sum_votes_by_office:  {{ sum_votes_by_office_district }}
+
+</div>
+
+{% for a in sum_votes_by_office_district %}
     <hr>
     <b>{{  a.election__office__office  }}: {{ a.vote_count__sum }}</b> <br>
 
-    {% for b in sum_votes_by_candidate %}
+    {% for b in sum_votes_by_candidate_district %}
 
         {% if a.election__office__office == b.election__office__office  %}
 
-            {{ b.candidate__person__first_name }} {{ b.candidate__person__last_name }} {{ b.candidate__party }}: {{ b.total_votes }}
+            <div class = "cand">{{ b.candidate__person__first_name }} {{ b.candidate__person__last_name }} {{ b.candidate__party }}: {{ b.total_votes }}</div>
+
             <br>
 {% endif %}
 
@@ -17,24 +25,30 @@ some test stuff here
     {% endfor %}
 <br>
 
+ =============
 
- =======================
-
+<div class = 'testme'>
 
 <h3>At large seats: Republican</h3>
-{{ sum_votes_by_candidate_atlarge_reps }}<br>
+<div style="display: none;">{{ sum_votes_by_candidate_atlarge_reps }}<br></div>
 {% for w in sum_votes_by_candidate_atlarge_reps %}
-** {{ w.candidate__person__first_name }} {{ w.candidate__person__last_name }}: {{ w.total_votes }} <br>
+<p>{{ w.candidate__person__first_name }} {{ w.candidate__person__last_name }}: {{ w.total_votes }}<br> </p>
 {% endfor %}
 
-=================
+</div>
+
+=============
 
 <h3>At large seats: Democrat</h3>
-{{ sum_votes_by_candidate_atlarge_dems }}<br>
+<div style="display: none;">{{ sum_votes_by_candidate_atlarge_dems }}<br></div>
 {% for w in sum_votes_by_candidate_atlarge_dems %}
-** {{ w.candidate__person__first_name }} {{ w.candidate__person__last_name }}: {{ w.total_votes }} <br>
+{{ w.candidate__person__first_name }} {{ w.candidate__person__last_name }}: {{ w.total_votes }} <br>
 {% endfor %}
 
 =============
 
 <h3>At large seats: Other Parties</h3>
+<div style="display: none;">{{ sum_votes_by_candidate_atlarge_other }}<br></div>
+{% for w in sum_votes_by_candidate_atlarge_other %}
+{{ w.candidate__person__first_name }} {{ w.candidate__person__last_name }}: {{ w.total_votes }} <br>
+{% endfor %}
