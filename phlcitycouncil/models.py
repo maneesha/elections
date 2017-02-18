@@ -4,6 +4,8 @@ from django.db.models import Q
 
 from django.core.exceptions import ValidationError
 
+from django.db.models import Count, Sum, Max
+
 import datetime
 
 
@@ -139,6 +141,11 @@ class Vote(models.Model):
     def save(self, *args, **kwargs):
         self.clean()
         return super().save(*args, **kwargs)
+
+
+    def show_winner(dist):
+        return Vote.objects.filter(election__office__office=dist).values('election__office__office', 'candidate__person__last_name', 'candidate__person__first_name', 'candidate__party').annotate(total_vote=Sum('vote_count')).order_by('-total_vote').first()
+
 
 
 
