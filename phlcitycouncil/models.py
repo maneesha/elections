@@ -40,6 +40,9 @@ class Person(models.Model):
     def is_not_white(self):
         return self.race != 'White'
 
+    class Meta:
+        ordering =('last_name', 'first_name')
+
 class Candidate(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
 
@@ -57,6 +60,7 @@ class Candidate(models.Model):
 
     class Meta:
         unique_together = ('person', 'party',)
+        ordering = ('person',)
 
 
     def __str__(self):
@@ -316,7 +320,7 @@ class Term(models.Model):
 
 
         if self.office.office_type == "District":
-            if self.office != self.seat:
+            if str(self.office) != self.seat:
                 print("SEAT must match OFFICE for district records")
                 raise ValidationError("SEAT must match OFFICE for district records")
         if self.office.office_type == "At-Large":
