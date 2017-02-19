@@ -142,9 +142,9 @@ class Vote(models.Model):
         self.clean()
         return super().save(*args, **kwargs)
 
-
-    def show_winner(dist):
-        return Vote.objects.filter(election__office__office=dist).values('election__office__office', 'candidate__person__last_name', 'candidate__person__first_name', 'candidate__party').annotate(total_vote=Sum('vote_count')).order_by('-total_vote').first()
+    # For General Election.  Primary Election winners will need to include party.
+    def show_winner_general_district(dist, election_date):
+        return Vote.objects.filter(election__office__office=dist, election__election_date=election_date).values('election__office__office', 'candidate__person__last_name', 'candidate__person__first_name', 'candidate__party').annotate(total_vote=Sum('vote_count')).order_by('-total_vote').first()
 
 
 
