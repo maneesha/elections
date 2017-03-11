@@ -56,6 +56,7 @@ class Candidate(models.Model):
         ('Philadelphia Party',  'Philadelphia Party'),
         ('Republican', 'Republican'),
         ('Socialist Workers Party', 'Socialist Workers Party'),
+        ('Vote Jesse Brown', 'Vote Jesse Brown'),
         )
 
     party = models.CharField(max_length = 35, choices = PARTY_CHOICES)
