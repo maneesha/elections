@@ -12,6 +12,9 @@ def index(request):
 
 
 def vote_count(request):
+    # PROBLEM:  THIS DOES NOT SEPARATE BY ELECTION.  VIEW to HTML TEMPLATE vote_count.html SUMS UP ALL VOTES NOT JUST ONE ELECTION
+
+
     sum_votes_by_candidate = Vote.objects.all().values('election__office__office',  'candidate__person__last_name', 'candidate__person__first_name', 'candidate__party').annotate(total_votes = Sum('vote_count')).order_by('-total_votes')
 
     # Retrieve At Large Republican candidates and votes
