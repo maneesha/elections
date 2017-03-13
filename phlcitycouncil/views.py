@@ -11,42 +11,55 @@ def index(request):
     return render(request, 'phlcitycouncil/index.html')
 
 
-def vote_count(request):
+def vote_count(request, election_year):
     # PROBLEM:  THIS DOES NOT SEPARATE BY ELECTION.  VIEW to HTML TEMPLATE vote_count.html SUMS UP ALL VOTES NOT JUST ONE ELECTION
 
+    # not being used?
+    # sum_votes_by_candidate = Vote.objects.all().values('election__office__office',  'candidate__person__last_name', 'candidate__person__first_name', 'candidate__party').annotate(total_votes = Sum('vote_count')).order_by('-total_votes')
 
-    sum_votes_by_candidate = Vote.objects.all().values('election__office__office',  'candidate__person__last_name', 'candidate__person__first_name', 'candidate__party').annotate(total_votes = Sum('vote_count')).order_by('-total_votes')
+    elections = {'2011': '2011-11-08', '2015': '2015-11-03'}
 
-    # Retrieve At Large Republican candidates and votes
-    sum_votes_by_candidate_atlarge_dems = Vote.objects.filter(election__office__office='COUNCIL AT LARGE', candidate__party="Democrat").values('election__office__office',  'candidate__person__last_name', 'candidate__person__first_name', 'candidate__party').annotate(total_votes = Sum('vote_count')).order_by('-total_votes')
+    try:
 
-    # Retrive At Large Democrate candidates and votes
-    sum_votes_by_candidate_atlarge_reps = Vote.objects.filter(election__office__office='COUNCIL AT LARGE', candidate__party="Republican").values('election__office__office',  'candidate__person__last_name', 'candidate__person__first_name', 'candidate__party').annotate(total_votes = Sum('vote_count')).order_by('-total_votes')
+        current_election = Vote.objects.filter(election__election_date = elections[election_year])
+        print("ELECTION YEAR: ", election_year)
+        print("TYPE: ", type(election_year))
+        print("FROM DICT: ", elections[election_year])
 
-    # Retrieve At Large Other Party candidates and votes
-    sum_votes_by_candidate_atlarge_other = ""
+        # Retrieve At Large Democrat candidates and votes
+        sum_votes_by_candidate_atlarge_dems = current_election.filter(election__office__office='COUNCIL AT LARGE', candidate__party="Democrat").values('election__office__office',  'candidate__person__last_name', 'candidate__person__first_name', 'candidate__party').annotate(total_votes = Sum('vote_count')).order_by('-total_votes')
 
-    sum_votes_by_candidate_district = Vote.objects.filter(election__office__office__startswith='DIST').values('election__office__office',  'candidate__person__last_name', 'candidate__person__first_name', 'candidate__party').annotate(total_votes = Sum('vote_count')).order_by('-total_votes')
+        # Retrive At Large Republican candidates and votes
+        sum_votes_by_candidate_atlarge_reps = current_election.filter(election__office__office='COUNCIL AT LARGE', candidate__party="Republican").values('election__office__office',  'candidate__person__last_name', 'candidate__person__first_name', 'candidate__party').annotate(total_votes = Sum('vote_count')).order_by('-total_votes')
+
+        # Retrieve At Large Other Party candidates and votes
+        sum_votes_by_candidate_atlarge_other = current_election.filter(election__office__office='COUNCIL AT LARGE').values('election__office__office',  'candidate__person__last_name', 'candidate__person__first_name', 'candidate__party').annotate(total_votes = Sum('vote_count')).order_by('-total_votes').exclude(candidate__party__in=["Democrat", "Republican"])
+     
+        # Retrieve district candidates and votes
+        sum_votes_by_candidate_district = current_election.filter(election__office__office__startswith='DIST').values('election__office__office',  'candidate__person__last_name', 'candidate__person__first_name', 'candidate__party').annotate(total_votes = Sum('vote_count')).order_by('-total_votes')
 
 
 
-    sum_votes_by_office = Vote.objects.all().values('election__office__office').annotate(Sum('vote_count'))
+        sum_votes_by_office = current_election.all().values('election__office__office').annotate(Sum('vote_count'))
 
-    sum_votes_by_office_district = Vote.objects.filter(election__office__office__startswith='DIST').values('election__office__office').annotate(Sum('vote_count'))
+        sum_votes_by_office_district = current_election.filter(election__office__office__startswith='DIST').values('election__office__office').annotate(Sum('vote_count'))
 
+    except KeyError:
+        return HttpResponse("That is not a valid year")
+    except TypeError:
+        return HttpResponse("Select a year")
 
-    sum_votes_by_candidate_atlarge_other = Vote.objects.filter(election__office__office='COUNCIL AT LARGE').values('election__office__office',  'candidate__person__last_name', 'candidate__person__first_name', 'candidate__party').annotate(total_votes = Sum('vote_count')).order_by('-total_votes').exclude(candidate__party__in=["Democrat", "Republican"])
 
 
     context = {
-        "sum_votes_by_candidate":sum_votes_by_candidate,
-        "sum_votes_by_office":sum_votes_by_office,
+        # "sum_votes_by_candidate":sum_votes_by_candidate,
         "sum_votes_by_candidate_atlarge_dems":sum_votes_by_candidate_atlarge_dems,
         "sum_votes_by_candidate_atlarge_reps":sum_votes_by_candidate_atlarge_reps,
         "sum_votes_by_candidate_atlarge_other":sum_votes_by_candidate_atlarge_other,
         "sum_votes_by_candidate_district":sum_votes_by_candidate_district,
         "sum_votes_by_office_district":sum_votes_by_office_district,
-        "sum_votes_by_candidate_atlarge_other": sum_votes_by_candidate_atlarge_other
+        "sum_votes_by_candidate_atlarge_other": sum_votes_by_candidate_atlarge_other,
+        "election_year": election_year,
 
 
     }
