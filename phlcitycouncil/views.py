@@ -54,8 +54,9 @@ def vote_count(request):
     return render(request, 'phlcitycouncil/vote_count.html', context)
 
 
-def phlcitycouncil(request):
-    return HttpResponse("vistiing phlcitycouncil")
+def phlcitycouncil(request, user_id):
+    user = Person.objects.get(id=user_id)
+    return HttpResponse("Vistiing phlcitycouncil. <br>" + str(user_id) + " is the id for  " + str(user))
 
 def about(request):
     return HttpResponse('the about page')

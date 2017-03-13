@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^pcc/$', views.phlcitycouncil),
     url(r'^about/$', views.about),
     url(r'^vote_count/$', views.vote_count),
+    url(r'^pcc/(?P<user_id>\d+)/$', views.phlcitycouncil)
 ]
