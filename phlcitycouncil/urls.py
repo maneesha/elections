@@ -9,5 +9,5 @@ urlpatterns = [
     url(r'^about/$', views.about),
     # url(r'^vote_count/$', views.vote_count),
     url(r'^pcc/(?P<user_id>\d+)/$', views.phlcitycouncil),
-    url(r'^vote_count/(?P<election_year>\d+)/$', views.vote_count),
+    url(r'^vote_count/(?P<election_year>[0-9]{4})/$', views.vote_count),
 ]
