@@ -45,6 +45,9 @@ def vote_count(request, election_year):
         sum_votes_by_office_district = current_election.filter(election__office__office__startswith='DIST').values('election__office__office').annotate(Sum('vote_count'))
 
     except KeyError:
+        print("ELECTION YEAR: ", election_year)
+        print("TYPE: ", type(election_year))
+        # print("FROM DICT: ", elections[election_year])
         return HttpResponse("That is not a valid year")
     except TypeError:
         return HttpResponse("Select a year")
