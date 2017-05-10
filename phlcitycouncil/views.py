@@ -73,13 +73,27 @@ def vote_count(request, election_year):
 def candidate_bios(request, user_id):
     user = Person.objects.get(id=user_id)
     user_gender = user.gender
-    user_race = user.race
+
+    if user.race:
+        user_race = user.race
+    else:
+        user_race = "unknown"
+
+
+    if user.birthdate:
+        user_birthdate = user.birthdate
+    else:
+        user_birthdate = "unknown"
+
+
+
 
     context = {
     "user":user,
     "user_id":user_id,
     "user_gender":user_gender,
     "user_race":user_race,
+    "user_birthdate":user_birthdate,
     }
 
     return render(request, 'phlcitycouncil/candidate_bios.html', context)
