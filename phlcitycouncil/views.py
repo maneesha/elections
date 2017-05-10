@@ -101,5 +101,11 @@ def candidate_bios(request, user_id):
     # HARD CODED HTML to be returned
     # return HttpResponse("Vistiing phlcitycouncil. <br>" + str(user_id) + " is the id for  " + str(user))
 
+
+def candidate_list(request):
+    candidates = Candidates.objects.all()
+
+    return HttpResponse("A list of all candidates")
+
 def about(request):
     return HttpResponse('the about page')
