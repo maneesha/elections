@@ -9,5 +9,5 @@ This is the candidates list:
 ------------
 <br>
 {% for candidate in candidates %}
-  <p>{{ candidate }}</p>
+  <p><a href="/pcc/{{ candidate.person.id }}">{{ candidate }}</a> </p>
 {% endfor %}
