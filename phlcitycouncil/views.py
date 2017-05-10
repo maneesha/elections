@@ -70,9 +70,17 @@ def vote_count(request, election_year):
     return render(request, 'phlcitycouncil/vote_count.html', context)
 
 
-def phlcitycouncil(request, user_id):
+def candidate_bios(request, user_id):
     user = Person.objects.get(id=user_id)
-    return HttpResponse("Vistiing phlcitycouncil. <br>" + str(user_id) + " is the id for  " + str(user))
+
+    context = {
+    "user":user,
+    }
+
+    return render(request, 'phlcitycouncil/candidate_bios.html', context)
+    
+    # HARD CODED HTML to be returned
+    # return HttpResponse("Vistiing phlcitycouncil. <br>" + str(user_id) + " is the id for  " + str(user))
 
 def about(request):
     return HttpResponse('the about page')
