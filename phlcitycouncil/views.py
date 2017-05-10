@@ -103,9 +103,13 @@ def candidate_bios(request, user_id):
 
 
 def candidate_list(request):
-    candidates = Candidates.objects.all()
+    candidates = Candidate.objects.all()
+    print("$" * 100)
+    print(candidates)
 
-    return HttpResponse("A list of all candidates")
+    context = {"candidates":candidates}
+
+    return render(request, 'phlcitycouncil/candidate_list.html', context)
 
 def about(request):
     return HttpResponse('the about page')
