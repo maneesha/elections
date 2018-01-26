@@ -17,7 +17,7 @@ def vote_count(request, election_year):
     # not being used?
     # sum_votes_by_candidate = Vote.objects.all().values('election__office__office',  'candidate__person__last_name', 'candidate__person__first_name', 'candidate__party').annotate(total_votes = Sum('vote_count')).order_by('-total_votes')
 
-    elections = {'2011': '2011-11-08', '2015': '2015-11-03'}
+    elections = {'2011': '2011-11-08', '2015': '2015-11-03', '2007': '2007-11-06'}
 
     try:
 
