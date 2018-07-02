@@ -1,3 +1,5 @@
+{% load humanize %}
+
 
 <style type="text/css">
 	
@@ -18,8 +20,9 @@
 
 
 
-
 <div style="display: none;">
+<!-- <div> -->
+<!-- If displayed this would show the raw django data for each candidate & vote counts     -->
 ** Sum votes_by_candidate_district {{ sum_votes_by_candidate_district }}
 <br>
 
@@ -33,12 +36,15 @@
   <hr>
 <div class='dist'>
 
-    <b>{{  a.election__office__office  }}: {{ a.vote_count__sum }}</b> <br>
+    <b>{{  a.election__office__office  }}: {{ a.vote_count__sum|intcomma }}
+
+
+</b> <br>
 
     {% for b in sum_votes_by_candidate_district %}
 
         {% if a.election__office__office == b.election__office__office  %}
-            <div class = "cand">{{ b.candidate__person__first_name }} {{ b.candidate__person__last_name }} {{ b.candidate__party }}: {{ b.total_votes }}</div>
+            <div class = "cand">{{ b.candidate__person__first_name }} {{ b.candidate__person__last_name }} {{ b.candidate__party }}: {{ b.total_votes|intcomma }}</div>
             <br>
 		{% endif %}
 
@@ -71,7 +77,7 @@
 <h3>At large seats: Democrat</h3>
 <div style="display: none;">{{ sum_votes_by_candidate_atlarge_dems }}<br></div>
 {% for w in sum_votes_by_candidate_atlarge_dems %}
-{{ w.candidate__person__first_name }} {{ w.candidate__person__last_name }}: {{ w.total_votes }} <br>
+{{ w.candidate__person__first_name }} {{ w.candidate__person__last_name }}: {{ w.total_votes|intcomma }} <br>
 {% endfor %}
 
 =============
@@ -79,5 +85,5 @@
 <h3>At large seats: Other Parties</h3>
 <div style="display: none;">{{ sum_votes_by_candidate_atlarge_other }}<br></div>
 {% for w in sum_votes_by_candidate_atlarge_other %}
-{{ w.candidate__person__first_name }} {{ w.candidate__person__last_name }}: {{ w.total_votes }} <br>
+{{ w.candidate__person__first_name }} {{ w.candidate__person__last_name }}: {{ w.total_votes|intcomma }} <br>
 {% endfor %}
